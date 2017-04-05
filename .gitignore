@@ -1,0 +1,23 @@
+.idea/*
+build
+*.iml
+bin
+.DS_Store
+/logs
+/*/logs
+/logback
+/*/logback
+*target*
+*asta.bak*
+
+# eclipse specific git ignore
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+.classpath
+.settings/*
+*/.settings/*
+.loadpath
