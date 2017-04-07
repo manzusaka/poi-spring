@@ -5,36 +5,27 @@
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
 
-    <xsd:element name="annotation-driven">
-    </xsd:element>
+    <xsd:element name="annotation-driven"/>
     <xsd:element name="workbook">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="vertical" type="vertical" minOccurs="1">
+                <xsd:element name="column" type="column" minOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
-    <xsd:complexType name="vertical">
-        <xsd:attribute name="name" type="xsd:string" use="required"></xsd:attribute>
-        <xsd:attribute name="title" type="xsd:string" use="required"></xsd:attribute>
-        <xsd:attribute name="required" type="xsd:boolean" default="false"></xsd:attribute>
-        <xsd:attribute name="regex" type="xsd:string"></xsd:attribute>
-        <xsd:attribute name="columnwidth" type="xsd:integer"></xsd:attribute>
-        <xsd:attribute name="align" type="align"></xsd:attribute>
-        <xsd:attribute name="titlebgcolor" type="color"></xsd:attribute>
-        <xsd:attribute name="titlefountcolor" type="color"></xsd:attribute>
-        <xsd:attribute name="defaultvalue" type="xsd:string"></xsd:attribute>
-        <xsd:sequence>
-            <xsd:element name="convertdown" type="target" minOccurs="0"></xsd:element>
-            <xsd:element name="convertup" type="target" minOccurs="0"></xsd:element>
-            <xsd:element name="filter" type="target" minOccurs="0"></xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="target">
-        <xsd:choice>
-            <xsd:attribute name="name" type="xsd:string"></xsd:attribute>
-            <xsd:attribute name="class" type="xsd:string"></xsd:attribute>
-        </xsd:choice>
+    <xsd:complexType name="column">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="title" type="xsd:string" use="required"/>
+        <xsd:attribute name="required" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="regex" type="xsd:string"/>
+        <xsd:attribute name="column-width" type="xsd:integer"/>
+        <xsd:attribute name="align" type="align"/>
+        <xsd:attribute name="title-bg-color" type="color"/>
+        <xsd:attribute name="title-fount-color" type="color"/>
+        <xsd:attribute name="default-value" type="xsd:string"/>
+        <xsd:attribute name="convert-down-ref" type="xsd:string"/>
+        <xsd:attribute name="convert-up-ref" type="xsd:string"/>
+        <xsd:attribute name="filter-ref" type="xsd:string"/>
     </xsd:complexType>
     <xsd:simpleType name="align">
         <xsd:restriction base="xsd:string">

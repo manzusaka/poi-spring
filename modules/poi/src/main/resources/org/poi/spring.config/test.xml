@@ -8,5 +8,13 @@
     <poi:annotation-driven>
 
     </poi:annotation-driven>
-
+    <poi:workbook>
+        <poi:column name="" title=""/>
+        <poi:column name="" title=""/>
+        <poi:column name="" title=""/>
+        <poi:column name="" title=""/>
+        <poi:column name="" title=""/>
+        <poi:column name="" title=""/>
+        <poi:column name="" title=""/>
+    </poi:workbook>
 </beans>
