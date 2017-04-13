@@ -1,4 +1,4 @@
-package poi-spring;
+package org.springboot.poi;
 
 /**
  * Hello world!

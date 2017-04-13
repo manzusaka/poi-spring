@@ -1,4 +1,4 @@
-package poi-spring;
+package org.springboot.poi.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
