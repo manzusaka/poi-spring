@@ -1,7 +1,11 @@
 package org.poi.spring.config;
 
+import org.apache.xmlbeans.impl.common.ConcurrentReaderHashMap;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by oldflame on 2017/4/6.
@@ -31,13 +35,7 @@ public class ExcelWorkBookBeandefinition {
     /**
      * 导出时,sheet页所有的默认列宽,可以不设置
      */
-    private Integer defaultColumnWidth;
-
-    /**
-     * 导出时,cell默认对其方式:支持,center,left,right
-     */
-    private Short defaultAlign;
-
+    private Integer columnWidth;
 
     /**
      * Excel 文件sheet索引，默认为0即，第一个
@@ -45,9 +43,22 @@ public class ExcelWorkBookBeandefinition {
     private int sheetIndex = 0;
 
     /**
+     * 参数信息
+     */
+    private Map<String, Object> defaultProperties;
+
+    /**
      * Field属性的全部定义
      */
     private List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
+
+    public Map<String, Object> getDefaultProperties() {
+        return defaultProperties;
+    }
+
+    public void setDefaultProperties(Map<String, Object> defaultProperties) {
+        this.defaultProperties = defaultProperties;
+    }
 
     public String getSheetName() {
         return sheetName;
@@ -89,22 +100,14 @@ public class ExcelWorkBookBeandefinition {
         this.excleName = excleName;
     }
 
-    public Integer getDefaultColumnWidth() {
-        return defaultColumnWidth;
+    public Integer getColumnWidth() {
+        return columnWidth;
     }
 
-    public void setDefaultColumnWidth(Integer defaultColumnWidth) {
-        this.defaultColumnWidth = defaultColumnWidth;
+    public void setColumnWidth(Integer columnWidth) {
+        this.columnWidth = columnWidth;
     }
 
-
-    public Short getDefaultAlign() {
-        return defaultAlign;
-    }
-
-    public void setDefaultAlign(Short defaultAlign) {
-        this.defaultAlign = defaultAlign;
-    }
 
     public int getSheetIndex() {
         return sheetIndex;

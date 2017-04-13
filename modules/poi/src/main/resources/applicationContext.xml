@@ -6,7 +6,7 @@
                             http://www.mitix.com/schema/poi http://www.mitix.com/schema/poi/poi.xsd">
 
     <poi:excle-work-book id="infotech" excle-name="测试excle" data-class="org.poi.spring.test.Car" default-align="center"
-                         default-column-width="100" sheet-index="0" sheet-name="SHEET1">
+                         column-width="100" sheet-index="0" sheet-name="SHEET1">
         <poi:column name="name" title="111111"/>
         <poi:column name="age" title="22222"/>
         <poi:column name="dddd" title="33333" regex="[a-z]" required="false" align="center" column-width="100"

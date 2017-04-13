@@ -17,4 +17,17 @@ import java.lang.annotation.Target;
 @Component
 public @interface ExcleWorkBook {
 
+    String value();
+
+    String sheetName();
+
+    String index();
+
+    String columnWith();
+
+    String align();
+
+    String font();
+
+    String wraptext();
 }

@@ -1,10 +1,11 @@
 package org.poi.spring.config.schema;
 
-import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.util.CellUtil;
 import org.poi.spring.config.ColumnDefinition;
 import org.poi.spring.config.ExcelWorkBookBeandefinition;
+import org.poi.spring.constants.PoiConstant;
 import org.poi.spring.exception.ExcelException;
-import org.poi.spring.util.ReflectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -18,15 +19,17 @@ import org.w3c.dom.NodeList;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by oldflame on 2017/4/8.
  */
-public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionParser implements ExcleWorkBookNode {
-    private static final String CLASS_NAME_PREFIX = "excleworkbook_";
+public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionParser {
+
 
     private static final Logger logger = LoggerFactory.getLogger(ExcleWorkBookBeanDefinitionParser.class);
 
@@ -42,13 +45,13 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
         beanDefinition.setLazyInit(false);
 
         //excleName
-        if (!element.hasAttribute(EXCLE_NAME_ATTRIBUTE)) {
+        if (!element.hasAttribute(PoiConstant.EXCLE_NAME_ATTRIBUTE)) {
             throw new ExcelException("excleworkbook excle-name has empty");
         }
-        String excleName = element.getAttribute(EXCLE_NAME_ATTRIBUTE);
+        String excleName = element.getAttribute(PoiConstant.EXCLE_NAME_ATTRIBUTE);
         beanDefinition.getPropertyValues().addPropertyValue("excleName", excleName);
 
-        String dataClassName = element.getAttribute(DATA_CLASS_ATTRIBUTE);
+        String dataClassName = element.getAttribute(PoiConstant.DATA_CLASS_ATTRIBUTE);
         Class dataClass = null;
         try {
             dataClass = ClassUtils.forName(dataClassName, null);
@@ -60,28 +63,71 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
         }
         beanDefinition.getPropertyValues().addPropertyValue("dataClass", dataClass);
 
-        String id = CLASS_NAME_PREFIX + dataClassName;
+        String id = dataClassName + PoiConstant.CLASS_NAME_SUFFIX;
         beanDefinition.getPropertyValues().addPropertyValue("id", id);
 
-        if (element.hasAttribute(SHEET_NAME_ATTRIBUTE)) {
-            beanDefinition.getPropertyValues().addPropertyValue("sheetName", element.getAttribute(SHEET_NAME_ATTRIBUTE));
+        if (element.hasAttribute(PoiConstant.SHEET_NAME_ATTRIBUTE)) {
+            beanDefinition.getPropertyValues().addPropertyValue("sheetName", element.getAttribute(PoiConstant.SHEET_NAME_ATTRIBUTE));
         }
-        if (element.hasAttribute(DEFAULT_COLUMN_WIDTH_ATTRIBUTE)) {
-            beanDefinition.getPropertyValues().addPropertyValue("defaultColumnWidth", element.getAttribute(DEFAULT_COLUMN_WIDTH_ATTRIBUTE));
+        if (element.hasAttribute(PoiConstant.SHEET_INDEX_ATTRIBUTE)) {
+            beanDefinition.getPropertyValues().addPropertyValue("sheetIndex", element.getAttribute(PoiConstant.SHEET_INDEX_ATTRIBUTE));
         }
-        if (element.hasAttribute(DEFAULT_ALIGN_ATTRIBUTE)) {
-            String defaultAlign = element.getAttribute(DEFAULT_ALIGN_ATTRIBUTE);
-            //获取cell对齐方式的常量值
-            short constValue = ReflectUtil.getConstValue(CellStyle.class, "ALIGN_" + defaultAlign.toUpperCase());
-            beanDefinition.getPropertyValues().addPropertyValue("defaultAlign", constValue);
+        if (element.hasAttribute(PoiConstant.DEFAULT_COLUMN_WIDTH_ATTRIBUTE)) {
+            beanDefinition.getPropertyValues().addPropertyValue("columnWidth", element.getAttribute(PoiConstant.DEFAULT_COLUMN_WIDTH_ATTRIBUTE));
         }
-        if (element.hasAttribute(SHEET_INDEX_ATTRIBUTE)) {
-            beanDefinition.getPropertyValues().addPropertyValue("sheetIndex", element.getAttribute(SHEET_INDEX_ATTRIBUTE));
-        }
+        //参数信息
+        Map<String, Object> defaultProperties = addDefaultProperties(element);
+        beanDefinition.getPropertyValues().addPropertyValue("defaultProperties", defaultProperties);
+
         List<ColumnDefinition> columnDefinitions = parseColumnElements(element, dataClass, excleName);
         beanDefinition.getPropertyValues().addPropertyValue("columnDefinitions", columnDefinitions);
         parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
         return beanDefinition;
+    }
+
+    private Map<String, Object> addDefaultProperties(Element element) {
+        Map<String, Object> properties = new HashMap<>();
+        if (element.hasAttribute(PoiConstant.DEFAULT_WRAPTEXT)) {
+            addWrapTextProperties(properties, element.getAttribute(PoiConstant.DEFAULT_WRAPTEXT));
+        }
+        if (element.hasAttribute(PoiConstant.DEFAULT_FONT)) {
+            addFontProperties(properties, element.getAttribute(PoiConstant.DEFAULT_FONT));
+        }
+        if (element.hasAttribute(PoiConstant.DEFAULT_ALIGN_ATTRIBUTE)) {
+            addAlignProperties(properties, element.getAttribute(PoiConstant.DEFAULT_ALIGN_ATTRIBUTE));
+        }
+        return properties;
+    }
+
+    private void addWrapTextProperties(Map<String, Object> properties, String value) {
+        if (PoiConstant.TRUE_VALUE.equals(value)) {
+            properties.put(CellUtil.WRAP_TEXT, true);
+        }
+    }
+
+    private void addFontProperties(Map<String, Object> properties, String value) {
+        try {
+            properties.put(CellUtil.FONT, Short.valueOf(value));
+        } catch (Exception e) {
+            throw new ExcelException("excleworkbook font error value=" + value);
+        }
+    }
+
+    private void addAlignProperties(Map<String, Object> properties, String value) {
+        switch (value) {
+            case "left":
+                properties.put(CellUtil.ALIGNMENT, HorizontalAlignment.LEFT);
+                break;
+            case "right":
+                properties.put(CellUtil.ALIGNMENT, HorizontalAlignment.RIGHT);
+                break;
+            case "center":
+                properties.put(CellUtil.ALIGNMENT, HorizontalAlignment.CENTER);
+                break;
+            default:
+                properties.put(CellUtil.ALIGNMENT, HorizontalAlignment.GENERAL);
+                break;
+        }
     }
 
     private List<ColumnDefinition> parseColumnElements(Element element, Class dataClass, String excleName) {
@@ -96,7 +142,7 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
         NodeList nl = element.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
             Node node = nl.item(i);
-            if (nodeNameEquals(node, COLUMN_ELEMENT)) {
+            if (nodeNameEquals(node, PoiConstant.COLUMN_ELEMENT)) {
                 columnDefinitions.add(parseColumnElement((Element) node, fieldNames, excleName));
             }
         }
@@ -107,42 +153,56 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
     private ColumnDefinition parseColumnElement(Element columnElement, Set<String> fieldNames, String excleName) {
         ColumnDefinition columnDefinition = new ColumnDefinition();
         //excleName
-        if (!columnElement.hasAttribute(COLUMN_NAME_ATTRIBUTE)) {
+        if (!columnElement.hasAttribute(PoiConstant.COLUMN_NAME_ATTRIBUTE)) {
             throw new ExcelException("excleworkbook column-name has empty excleName=" + excleName);
         }
-        String name = columnElement.getAttribute(COLUMN_NAME_ATTRIBUTE);
+        String name = columnElement.getAttribute(PoiConstant.COLUMN_NAME_ATTRIBUTE);
         if (hasNotFieldName(fieldNames, name)) {
             throw new ExcelException("excleworkbook column-name has empty excleName=" + excleName + "  name=" + name);
         }
         columnDefinition.setName(name);
 
-        if (!columnElement.hasAttribute(TITLE_ATTRIBUTE)) {
+        if (!columnElement.hasAttribute(PoiConstant.TITLE_ATTRIBUTE)) {
             throw new ExcelException("excleworkbook title has empty excleName=" + excleName + " column-name=" + name);
         }
-        columnDefinition.setTitle(columnElement.getAttribute(TITLE_ATTRIBUTE));
+        columnDefinition.setTitle(columnElement.getAttribute(PoiConstant.TITLE_ATTRIBUTE));
 
-        if (columnElement.hasAttribute(REGEX_ATTRIBUTE)) {
-            columnDefinition.setRegex(columnElement.getAttribute(REGEX_ATTRIBUTE));
+        if (columnElement.hasAttribute(PoiConstant.REGEX_ATTRIBUTE)) {
+            columnDefinition.setRegex(columnElement.getAttribute(PoiConstant.REGEX_ATTRIBUTE));
         }
-        if (columnElement.hasAttribute(REQUIRED_ATTRIBUTE)) {
-            columnDefinition.setRequired(TRUE_VALUE.equals(columnElement.getAttribute(REQUIRED_ATTRIBUTE)));
+        if (columnElement.hasAttribute(PoiConstant.REQUIRED_ATTRIBUTE)) {
+            columnDefinition.setRequired(PoiConstant.TRUE_VALUE.equals(columnElement.getAttribute(PoiConstant.REQUIRED_ATTRIBUTE)));
         }
-        if (columnElement.hasAttribute(ALIGN_ATTRIBUTE)) {
-            String align = columnElement.getAttribute(ALIGN_ATTRIBUTE);
-            short constValue = ReflectUtil.getConstValue(CellStyle.class, "ALIGN_" + align.toUpperCase());
-            columnDefinition.setAlign(constValue);
-        }
-        if (columnElement.hasAttribute(COLUMN_WIDTH_ATTRIBUTE)) {
+        if (columnElement.hasAttribute(PoiConstant.COLUMN_WIDTH_ATTRIBUTE)) {
             try {
-                columnDefinition.setColumnWidth(Integer.parseInt(columnElement.getAttribute(COLUMN_WIDTH_ATTRIBUTE)));
+                columnDefinition.setColumnWidth(Integer.parseInt(columnElement.getAttribute(PoiConstant.COLUMN_WIDTH_ATTRIBUTE)));
             } catch (Exception e) {
                 throw new ExcelException("excleworkbook column-width has error excleName=" + excleName + " column-name=" + name);
             }
         }
-        if (columnElement.hasAttribute(DEFAULT_VALUE_ATTRIBUTE)) {
-            columnDefinition.setDefaultValue(columnElement.getAttribute(DEFAULT_VALUE_ATTRIBUTE));
+        if (columnElement.hasAttribute(PoiConstant.DEFAULT_VALUE_ATTRIBUTE)) {
+            columnDefinition.setDefaultValue(columnElement.getAttribute(PoiConstant.DEFAULT_VALUE_ATTRIBUTE));
         }
+
+        //参数信息
+        Map<String, Object> properties = addProperties(columnElement);
+        columnDefinition.setProperties(properties);
+
         return columnDefinition;
+    }
+
+    private Map<String, Object> addProperties(Element columnElement) {
+        Map<String, Object> properties = new HashMap<>();
+        if (columnElement.hasAttribute(PoiConstant.WRAPTEXT)) {
+            addWrapTextProperties(properties, columnElement.getAttribute(PoiConstant.WRAPTEXT));
+        }
+        if (columnElement.hasAttribute(PoiConstant.FONT)) {
+            addFontProperties(properties, columnElement.getAttribute(PoiConstant.FONT));
+        }
+        if (columnElement.hasAttribute(PoiConstant.ALIGN_ATTRIBUTE)) {
+            addAlignProperties(properties, columnElement.getAttribute(PoiConstant.ALIGN_ATTRIBUTE));
+        }
+        return properties;
     }
 
     private boolean hasNotFieldName(Set<String> fieldNames, String determineName) {

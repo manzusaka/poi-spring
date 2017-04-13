@@ -4,6 +4,7 @@ import org.poi.spring.filter.Filter;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by oldflame on 2017/4/6.
@@ -61,27 +62,24 @@ public class ColumnDefinition {
      * @see org.apache.poi.ss.usermodel.Sheet
      */
     private Integer columnWidth;
-    /**
-     * cell对其方式:支持,center,left,right
-     */
-    private Short align;
-    /**
-     * 标题cell背景色
-     *
-     * @see org.apache.poi.ss.usermodel.IndexedColors
-     */
-    private Short titleBgColor;
-    /**
-     * 标题cell字体色
-     *
-     * @see org.apache.poi.ss.usermodel.IndexedColors
-     */
-    private Short titleFountColor;
 
     /**
      * 当值为空时,字段的默认值
      */
     private String defaultValue;
+
+    /**
+     * 参数信息
+     */
+    private Map<String, Object> properties;
+
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
+    }
 
     public String getName() {
         return name;
@@ -179,30 +177,6 @@ public class ColumnDefinition {
         this.columnWidth = columnWidth;
     }
 
-    public Short getAlign() {
-        return align;
-    }
-
-    public void setAlign(Short align) {
-        this.align = align;
-    }
-
-    public Short getTitleBgColor() {
-        return titleBgColor;
-    }
-
-    public void setTitleBgColor(Short titleBgColor) {
-        this.titleBgColor = titleBgColor;
-    }
-
-    public Short getTitleFountColor() {
-        return titleFountColor;
-    }
-
-    public void setTitleFountColor(Short titleFountColor) {
-        this.titleFountColor = titleFountColor;
-    }
-
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -210,4 +184,5 @@ public class ColumnDefinition {
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
+
 }

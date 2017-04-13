@@ -24,7 +24,8 @@ public class ExcelContext extends ApplicationObjectSupport {
 
     @Override
     protected void initApplicationContext() throws BeansException {
-        List<ExcelWorkBookBeandefinition> excelWorkBookBeandefinitions = (List<ExcelWorkBookBeandefinition>) getApplicationContext().getBean(ExcelWorkBookBeandefinition.class);
+        List<ExcelWorkBookBeandefinition> excelWorkBookBeandefinitions =
+            (List<ExcelWorkBookBeandefinition>) getApplicationContext().getBean(ExcelWorkBookBeandefinition.class);
         if (!CollectionUtils.isEmpty(excelWorkBookBeandefinitions)) {
             for (ExcelWorkBookBeandefinition beandefinition : excelWorkBookBeandefinitions) {
                 excleIds.add(beandefinition.getId());

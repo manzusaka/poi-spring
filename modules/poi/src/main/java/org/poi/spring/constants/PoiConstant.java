@@ -1,9 +1,16 @@
-package org.poi.spring.config.schema;
+package org.poi.spring.constants;
 
 /**
- * Created by oldflame on 2017/4/8.
+ * Created by Hong.LvHang on 2017-04-13.
  */
-public interface ExcleWorkBookNode {
+public abstract class PoiConstant {
+    private PoiConstant() {
+
+    }
+
+    public static final String CLASS_NAME_SUFFIX = ".EXCLE";
+
+
     public static final String TRUE_VALUE = "true";
     public static final String FALSE_VALUE = "false";
 
@@ -12,8 +19,10 @@ public interface ExcleWorkBookNode {
     public static final String EXCLE_NAME_ATTRIBUTE = "excle-name";
     public static final String SHEET_NAME_ATTRIBUTE = "sheet-name";
     public static final String SHEET_INDEX_ATTRIBUTE = "sheet-index";
-    public static final String DEFAULT_COLUMN_WIDTH_ATTRIBUTE = "default-column-width";
+    public static final String DEFAULT_COLUMN_WIDTH_ATTRIBUTE = "column-width";
     public static final String DEFAULT_ALIGN_ATTRIBUTE = "default-align";
+    public static final String DEFAULT_FONT = "default-font";
+    public static final String DEFAULT_WRAPTEXT = "default-wraptext";
     //COLUMN
     public static final String COLUMN_ELEMENT = "poi:column";
     public static final String COLUMN_NAME_ATTRIBUTE = "name";
@@ -23,6 +32,6 @@ public interface ExcleWorkBookNode {
     public static final String ALIGN_ATTRIBUTE = "align";
     public static final String COLUMN_WIDTH_ATTRIBUTE = "column-width";
     public static final String DEFAULT_VALUE_ATTRIBUTE = "default-value";
-
-
+    public static final String FONT = "font";
+    public static final String WRAPTEXT = "wraptext";
 }
