@@ -33,32 +33,27 @@ public class ExcelWorkBookBeandefinition {
     private String sheetName;
 
     /**
-     * 导出时,sheet页所有的默认列宽,可以不设置
-     */
-    private Integer columnWidth;
-
-    /**
      * Excel 文件sheet索引，默认为0即，第一个
      */
-    private int sheetIndex = 0;
+    private int sheetIndex = 1;
 
-    /**
-     * 参数信息
-     */
-    private Map<String, Object> defaultProperties;
+    //    /**
+    //     * 参数信息
+    //     */
+    //    private Map<String, Object> defaultProperties;
 
     /**
      * Field属性的全部定义
      */
     private List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
 
-    public Map<String, Object> getDefaultProperties() {
-        return defaultProperties;
-    }
-
-    public void setDefaultProperties(Map<String, Object> defaultProperties) {
-        this.defaultProperties = defaultProperties;
-    }
+    //    public Map<String, Object> getDefaultProperties() {
+    //        return defaultProperties;
+    //    }
+    //
+    //    public void setDefaultProperties(Map<String, Object> defaultProperties) {
+    //        this.defaultProperties = defaultProperties;
+    //    }
 
     public String getSheetName() {
         return sheetName;
@@ -99,15 +94,6 @@ public class ExcelWorkBookBeandefinition {
     public void setExcleName(String excleName) {
         this.excleName = excleName;
     }
-
-    public Integer getColumnWidth() {
-        return columnWidth;
-    }
-
-    public void setColumnWidth(Integer columnWidth) {
-        this.columnWidth = columnWidth;
-    }
-
 
     public int getSheetIndex() {
         return sheetIndex;

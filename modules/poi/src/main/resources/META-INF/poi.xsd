@@ -59,6 +59,7 @@
                 <xsd:documentation><![CDATA[Sheet Index]]></xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
+        <!--
         <xsd:attribute name="column-width" type="xsd:integer">
             <xsd:annotation>
                 <xsd:documentation><![CDATA[column width all default]]></xsd:documentation>
@@ -79,6 +80,7 @@
                 <xsd:documentation><![CDATA[wraptext all default]]></xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
+        -->
     </xsd:attributeGroup>
 
     <xsd:attributeGroup name="columnAttributes">
