@@ -19,8 +19,13 @@ public @interface ExcleWorkBook {
 
     String name();
 
-    String sheetName() default "";
+    String sheetName() default "sheet_1";
 
     short sheetIndex() default 1;
 
+    int width() default 20;
+
+    Align align() default Align.GENERAL;
+
+    short font() default 12;
 }

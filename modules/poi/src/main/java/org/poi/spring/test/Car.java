@@ -1,14 +1,20 @@
 package org.poi.spring.test;
 
+import org.poi.spring.annotation.Column;
 import org.poi.spring.annotation.ExcleWorkBook;
 
 /**
  * Created by oldflame on 2017/4/8.
  */
-
+@ExcleWorkBook(name = "导出文件1")
 public class Car {
-    private String name;
+
+    @Column(title = "111111")
+    public String name;
+
+    @Column(title = "222222")
     private String age;
+
     private Integer dddd;
 
     public String getName() {

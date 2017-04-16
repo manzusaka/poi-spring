@@ -4,11 +4,9 @@ import org.poi.spring.config.ExcelWorkBookBeandefinition;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,12 +22,13 @@ public class ExcelContext extends ApplicationObjectSupport {
 
     @Override
     protected void initApplicationContext() throws BeansException {
-        List<ExcelWorkBookBeandefinition> excelWorkBookBeandefinitions =
-            (List<ExcelWorkBookBeandefinition>) getApplicationContext().getBean(ExcelWorkBookBeandefinition.class);
-        if (!CollectionUtils.isEmpty(excelWorkBookBeandefinitions)) {
-            for (ExcelWorkBookBeandefinition beandefinition : excelWorkBookBeandefinitions) {
-                excleIds.add(beandefinition.getId());
-                excleMap.put(beandefinition.getId(), beandefinition);
+        String[] excleBeans = getApplicationContext().getBeanNamesForType(ExcelWorkBookBeandefinition.class);
+        if (excleBeans != null && excleBeans.length > 0) {
+            for (String beanName : excleBeans) {
+                ExcelWorkBookBeandefinition excleDef = (ExcelWorkBookBeandefinition) getApplicationContext().getBean(beanName);
+                excleIds.add(excleDef.getId());
+                excleMap.put(excleDef.getId(), excleDef);
+
             }
         }
     }

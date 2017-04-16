@@ -1,9 +1,6 @@
 package org.poi.spring.config;
 
-import org.apache.xmlbeans.impl.common.ConcurrentReaderHashMap;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,23 +34,33 @@ public class ExcelWorkBookBeandefinition {
      */
     private int sheetIndex = 1;
 
-    //    /**
-    //     * 参数信息
-    //     */
-    //    private Map<String, Object> defaultProperties;
+    private int columnWidth;
+
+    /**
+     * 参数信息
+     */
+    private Map<String, Object> defaultProperties;
 
     /**
      * Field属性的全部定义
      */
-    private List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
+    private List<ColumnDefinition> columnDefinitions = new ArrayList<>();
 
-    //    public Map<String, Object> getDefaultProperties() {
-    //        return defaultProperties;
-    //    }
-    //
-    //    public void setDefaultProperties(Map<String, Object> defaultProperties) {
-    //        this.defaultProperties = defaultProperties;
-    //    }
+    public int getColumnWidth() {
+        return columnWidth;
+    }
+
+    public void setColumnWidth(int columnWidth) {
+        this.columnWidth = columnWidth;
+    }
+
+    public Map<String, Object> getDefaultProperties() {
+        return defaultProperties;
+    }
+
+    public void setDefaultProperties(Map<String, Object> defaultProperties) {
+        this.defaultProperties = defaultProperties;
+    }
 
     public String getSheetName() {
         return sheetName;

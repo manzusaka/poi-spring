@@ -8,9 +8,9 @@ import org.poi.spring.constants.PoiConstant;
 import org.poi.spring.exception.ExcelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
+import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.ClassUtils;
 import org.w3c.dom.Element;
@@ -28,9 +28,7 @@ import java.util.Set;
 /**
  * Created by oldflame on 2017/4/8.
  */
-public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionParser {
-
-
+public class ExcleWorkBookBeanDefinitionParser implements BeanDefinitionParser {
     private static final Logger logger = LoggerFactory.getLogger(ExcleWorkBookBeanDefinitionParser.class);
 
     private final Class<?> beanClass;
@@ -39,7 +37,8 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
         this.beanClass = beanDefinitionClass;
     }
 
-    protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
+    @Override
+    public BeanDefinition parse(Element element, ParserContext parserContext) {
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
         beanDefinition.setBeanClass(beanClass);
         beanDefinition.setLazyInit(false);
@@ -75,29 +74,26 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
         if (element.hasAttribute(PoiConstant.DEFAULT_COLUMN_WIDTH_ATTRIBUTE)) {
             beanDefinition.getPropertyValues().addPropertyValue("columnWidth", element.getAttribute(PoiConstant.DEFAULT_COLUMN_WIDTH_ATTRIBUTE));
         }
-        //        //参数信息
-        //        Map<String, Object> defaultProperties = addDefaultProperties(element);
-        //        beanDefinition.getPropertyValues().addPropertyValue("defaultProperties", defaultProperties);
+        //参数信息
+        Map<String, Object> defaultProperties = addDefaultProperties(element);
+        beanDefinition.getPropertyValues().addPropertyValue("defaultProperties", defaultProperties);
 
         List<ColumnDefinition> columnDefinitions = parseColumnElements(element, dataClass, excleName);
         beanDefinition.getPropertyValues().addPropertyValue("columnDefinitions", columnDefinitions);
         parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
-        return beanDefinition;
+        return null;
     }
 
-    //    private Map<String, Object> addDefaultProperties(Element element) {
-    //        Map<String, Object> properties = new HashMap<>();
-    //        if (element.hasAttribute(PoiConstant.DEFAULT_WRAPTEXT)) {
-    //            addWrapTextProperties(properties, element.getAttribute(PoiConstant.DEFAULT_WRAPTEXT));
-    //        }
-    //        if (element.hasAttribute(PoiConstant.DEFAULT_FONT)) {
-    //            addFontProperties(properties, element.getAttribute(PoiConstant.DEFAULT_FONT));
-    //        }
-    //        if (element.hasAttribute(PoiConstant.DEFAULT_ALIGN_ATTRIBUTE)) {
-    //            addAlignProperties(properties, element.getAttribute(PoiConstant.DEFAULT_ALIGN_ATTRIBUTE));
-    //        }
-    //        return properties;
-    //    }
+    private Map<String, Object> addDefaultProperties(Element element) {
+        Map<String, Object> properties = new HashMap<>();
+        if (element.hasAttribute(PoiConstant.DEFAULT_FONT)) {
+            addFontProperties(properties, element.getAttribute(PoiConstant.DEFAULT_FONT));
+        }
+        if (element.hasAttribute(PoiConstant.DEFAULT_ALIGN_ATTRIBUTE)) {
+            addAlignProperties(properties, element.getAttribute(PoiConstant.DEFAULT_ALIGN_ATTRIBUTE));
+        }
+        return properties;
+    }
 
     private void addWrapTextProperties(Map<String, Object> properties, String value) {
         if (PoiConstant.TRUE_VALUE.equals(value)) {
@@ -212,4 +208,6 @@ public class ExcleWorkBookBeanDefinitionParser extends AbstractBeanDefinitionPar
     public boolean nodeNameEquals(Node node, String desiredName) {
         return desiredName.equals(node.getNodeName());
     }
+
+
 }

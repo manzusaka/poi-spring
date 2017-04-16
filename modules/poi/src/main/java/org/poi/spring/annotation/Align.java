@@ -5,8 +5,4 @@ package org.poi.spring.annotation;
  */
 public enum Align {
     GENERAL, LEFT, CENTER, RIGHT;
-
-    private Align() {
-
-    }
 }

@@ -61,7 +61,7 @@ public class ColumnDefinition {
      *
      * @see org.apache.poi.ss.usermodel.Sheet
      */
-    private Integer columnWidth;
+    private int columnWidth;
 
     /**
      * 当值为空时,字段的默认值

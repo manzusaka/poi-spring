@@ -10,6 +10,7 @@ public abstract class PoiConstant {
 
     }
 
+    public static final String EMPTY_STRING = "";
     public static final String CLASS_NAME_SUFFIX = ".EXCLE";
 
 
