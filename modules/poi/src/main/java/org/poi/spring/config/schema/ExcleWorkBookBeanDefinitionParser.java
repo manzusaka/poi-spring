@@ -39,9 +39,12 @@ public class ExcleWorkBookBeanDefinitionParser implements BeanDefinitionParser {
 
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
+        Object source = parserContext.extractSource(element);
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
+        beanDefinition.setSource(source);
         beanDefinition.setBeanClass(beanClass);
         beanDefinition.setLazyInit(false);
+
 
         //excleName
         if (!element.hasAttribute(PoiConstant.EXCLE_NAME_ATTRIBUTE)) {
