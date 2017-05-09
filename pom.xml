@@ -6,10 +6,9 @@
     <artifactId>poi-spring-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>modules/springboot-poi-starter</module>
-        <module>modules/poi-web</module>
-        <module>modules/poi</module>
-        <module>modules/testscan</module>
+        <module>modules/poi-springboot-starter</module>
+        <module>modules/poi-spring-web</module>
+        <module>modules/poi-spring-core</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -25,6 +24,7 @@
         <jstl.version>1.2</jstl.version>
         <jsp.version>2.2</jsp.version>
         <poi.version>3.15</poi.version>
+        <beanutils.version>1.9.3</beanutils.version>
 
         <!--logs-->
         <!-- Log libs -->
@@ -48,6 +48,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
@@ -81,6 +86,13 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${beanutils.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.slf4j</groupId>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.mitix.com/schema/poi"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.mitix.com/schema/poi"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <xsd:annotation>
+        <xsd:documentation><![CDATA[ Namespace support for the poi spring ]]></xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:element name="annotation-driven">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[annotation excle]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="excle" type="exclebootType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[excle definition]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="exclebootType">
+        <xsd:sequence>
+            <xsd:element name="column" type="column" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="excleAttributes"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="column">
+        <xsd:attributeGroup ref="columnAttributes"/>
+    </xsd:complexType>
+
+    <xsd:attributeGroup name="excleAttributes">
+        <xsd:attribute name="id" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[Excle Id]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="excle-name" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[Excle Name]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="data-class" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation source="java:java.lang.Class"><![CDATA[Excle data bean class]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sheet-name" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[Sheet Name]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sheet-index" type="xsd:integer">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[Sheet Index]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="column-width" type="xsd:integer">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column width all default]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="default-align" type="align">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[align all default]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="default-font" type="xsd:integer">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[font all default]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="columnAttributes">
+        <xsd:attribute name="name" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column name]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="title" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column title]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="required" type="xsd:boolean">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column data is required or not]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="regex" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column regex validation]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="column-width" type="xsd:integer">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column width]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="align" type="align">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column align]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="font" type="xsd:integer">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[font all default]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="wraptext" type="xsd:boolean">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[wraptext all default]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="title-bg-color" type="color">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column title-bg-color]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="title-fount-color" type="color">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column title-fount-color]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="default-value" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column default-value]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="convert-down-ref" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column convert-down-ref]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="convert-up-ref" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column convert-up-ref]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="filter-ref" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[column filter-ref]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:attributeGroup>
+    <xsd:simpleType name="align">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="left"/>
+            <xsd:enumeration value="center"/>
+            <xsd:enumeration value="right"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="color">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="BLACK"/>
+            <xsd:enumeration value="RED"/>
+            <xsd:enumeration value="BLUE"/>
+            <xsd:enumeration value="YELLOW"/>
+            <xsd:enumeration value="GREEN"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
