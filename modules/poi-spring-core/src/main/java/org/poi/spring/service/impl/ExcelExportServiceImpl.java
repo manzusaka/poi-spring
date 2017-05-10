@@ -33,7 +33,6 @@ public class ExcelExportServiceImpl implements ExcelExportService {
     private ExcleConverter excleConverter;
 
 
-
     @Override
     public ExcelExportResult createExcel(List<?> beans) {
         ExcelExportResult exportResult = null;
@@ -61,7 +60,7 @@ public class ExcelExportServiceImpl implements ExcelExportService {
         if (beans != null) {
             createRows(excelWorkBookBeandefinition, sheet, beans);
         }
-        ExcelExportResult exportResult = new ExcelExportResult(excelWorkBookBeandefinition, sheet, workbook, titleRow, this);
+        ExcelExportResult exportResult = new ExcelExportResult(excelWorkBookBeandefinition, sheet, workbook, this);
         return exportResult;
     }
 
@@ -80,11 +79,11 @@ public class ExcelExportServiceImpl implements ExcelExportService {
         List<ColumnDefinition> columnDefinitions = excelWorkBookBeandefinition.getColumnDefinitions();
         for (int i = 0; i < columnDefinitions.size(); i++) {
             ColumnDefinition columnDefinition = columnDefinitions.get(i);
-//            if (columnDefinition.getColumnWidth() != null) {
-//                sheet.setColumnWidth(i, columnDefinition.getColumnWidth());
-//            }
+            //            if (columnDefinition.getColumnWidth() != null) {
+            //                sheet.setColumnWidth(i, columnDefinition.getColumnWidth());
+            //            }
             Cell cell = titleRow.createCell(i);
-//            CellUtil.setCellStyleProperties(cell, columnDefinition.getProperties());
+            //            CellUtil.setCellStyleProperties(cell, columnDefinition.getProperties());
             //excleConverter.canConvert(String.class, columnDefinition.getTitle().getClass());
             cell.setCellValue(columnDefinition.getTitle());
         }
@@ -112,7 +111,7 @@ public class ExcelExportServiceImpl implements ExcelExportService {
             }
             String valueStr = excleConverter.convert(value, String.class);
             Cell cell = row.createCell(i);
-//            CellUtil.setCellStyleProperties(cell, columnDefinition.getProperties());
+            //            CellUtil.setCellStyleProperties(cell, columnDefinition.getProperties());
             cell.setCellValue(valueStr);
         }
     }
